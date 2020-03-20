@@ -2,23 +2,24 @@
 
 //active connections in/out
 C:`.connection.conns;
-C set ([w:()]u:();h:();a:();to:());
+C set ([w:0#0i]u:();h:();a:();to:());
 //connection history
 H:`.connection.hist;
 H set ([]u:();h:();a:();to:();tc:());
-//function to call in .z.pc per handle
+//functions to call in .z.pc per handle
 D:`.connection.discon;
-D set ([w:()]f:());
+D set ([w:0#0i]f:());
 //managed connections
 M:`.connection.managed
-M set ([h:()];w:();con:();recon:();discon:());
+M set ([h:()];w:0#0i;con:();recon:();discon:());
 
 //conneciton timeout
 TIMEOUT:1000;
 //the hist we keep in mem
 HIST:01:00:00;
 
-//Conenct to h, execute con, recon and dicon on (1st) connection, reconnection and disconnection.
+//Conenct to h, call monadic con, recon and dicon with the int handle on 
+//(1st) connection, reconnection and disconnection respectively.
 connect:{[h;con;recon;discon]M upsert (h;0Ni;con;recon;discon);reconnect[];};
 
 //Disconnect from h
@@ -30,11 +31,11 @@ handle:{[h]M[h;`w]};
 //Timer function to handle reconnections
 reconnect:{[]
     {[h]
-        w:@[hopen;(h;TIMEOUT);0Nh];
+        w:@[hopen;(h;TIMEOUT);0Ni];
         if[not null w;
             C upsert (w;`;h;0Ni;.z.p);
             D upsert (w;M[h]`discon);
-            f:M[h;$[null M[h]`con;`recon;`con]];
+            f:{x null x 0}M[h]`con`recon;
             .[M;(h;`w`con);:;(w;(::))];
             f w;
         ]
