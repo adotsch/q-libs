@@ -77,7 +77,7 @@ genj:{[w;h;f]data::reverse f[key 2 xbar w+1;key 4 xbar h+3]}
 //getrarte, float x,y
 genf:{[w;h;f]s:1%w&h;data::reverse f[s*.5+key 2 xbar w+1;s*.5+key 4 xbar h+3]}
 
-genff:{[w;h;f]s:1%w&h;data::(h#flip w#dth)<=reverse f[s*.5+key 2 xbar w+1;s*.5+key 4 xbar h+3]}
+genff:{[w;h;f]s:1%w&h;data::(h#flip w#dth)<=reverse f[s*.5+key w:2 xbar w+1;s*.5+key h:4 xbar h+3]}
 
 h:{count data}
 w:{count data 0}
