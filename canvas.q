@@ -31,6 +31,7 @@
 ⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀
 ⠀⠀⠀⠀⠈⠛⠿⠿⣿⣿⣿⣿⠿⠿⠛⠁⠀⠀⠀⠀
 
+pi:4*atan 1
 .canvas.new[80;41]
 .canvas.plotxf[.5*.5+key 160]{20*1+sin pi*x%40};
 .canvas.print[]
