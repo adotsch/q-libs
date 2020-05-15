@@ -4,7 +4,7 @@ A naive implementation of a real-time subscriber that computes open,close,high,l
 ticking trade data.
 
 BARS   : closed bars
-BARS_RS: real-time updating bars
+BARS_RT: real-time updating bars
 
 Eg.:
 q rts/bar.q -tp ::5000 -barsize 00:01:00
