@@ -119,23 +119,21 @@ q)-1 .bitmap.braille c;
 
 //Create new bitmap with .bitmap.new[width;height]
 new:{`w`h`d!(x;y;#[x*y]0b)}
-
-//generate bitmap, "J" "J" -> ("B";"B";...)
+//Generate new bitmap with function, "J" "J" -> ("B";"B";...)
 genjjb:{[w;h;f]`w`h`d!(w;h;raze f[key w;key h])}
-//generate bitmap, "F" "F" -> ("B";"B";...)
+//Generate new bitmap with function, "F" "F" -> ("B";"B";...)
 genffb:{[w;h;f]s:1%w&h;`w`h`d!(w;h;raze f[s*.5+key w;s*.5+key h])}
-
-//generate bitmap, "F" "F" -> ("F";"F";...)
-genfff:{[w;h;f]s:1%w&h;`w`h`d!(w;h;raze .tmp.r:(h#w#/:dth)<=f[s*.5+key w;s*.5+key h])}
+//Generate new bitmap with function, "F" "F" -> ("F";"F";...)
+genfff:{[w;h;f]s:1%w&h;`w`h`d!(w;h;raze (h#w#/:dth)<=f[s*.5+key w;s*.5+key h])}
 
 //Draw a single or a series of plots with (dithered) color(s)
-/ bp:  bitmap by sym reference or value
+/ bm:  bitmap by sym reference or value
 / x,y: two coordinates or coordinate vectors of the same length
 / c:   sigle color (0b,1b or 0<=c<=1) or a vector of colors. The vector is resized to match x and y.
 plot:{[bm;x;y;c]
     x:floor (),x;y:floor (),y;
     c:("f"$(),c)floor key[count x]*count[c]%count x;
-    i:where (x>=0)&y>=0;x@:i;y@:i;c@:i;
+    i:where 0<=x&y;x@:i;y@:i;c@:i;
     i:where (x<bm`w)&y<bm`h;x@:i;y@:i;c@:i;
     c>:dthr mod[x;4]+4*mod[y;4];
     .[bm;(`d;x+y*bm`w);:;c]
@@ -147,7 +145,7 @@ plot0:plot[;;;0b]
 plotfx:{[bm;f;x;c]plot[bm;x;f'[x];c]}
 
 //Draw a line between a and b with (dithered) color(s)
-/ bp:  bitmap by sym reference or value
+/ bm:  bitmap by sym reference or value
 / a,b: coordinate pairs
 / c:   sigle color (0b,1b or 0<=c<=1) or a vector of colors, used to color the line from a to b.
 line:{[bm;a;b;c]
