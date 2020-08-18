@@ -83,7 +83,7 @@ q)-1 .bitmap.braille c;
 
 
 q)c:.bitmap.genffb[40;40]{0.25>(x-.5){(x*x)+y*y}/:y-.5}
-q)q)-1 .bitmap.braille c;
+q)-1 .bitmap.braille c;
 ⠀⠀⠀⠀⢀⣤⣶⣶⣿⣿⣿⣿⣶⣶⣤⡀⠀⠀⠀⠀
 ⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀
 ⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀
@@ -132,7 +132,7 @@ genfff:{[w;h;f]s:1%w&h;`w`h`d!(w;h;raze (h#w#/:dth)<=f[s*.5+key w;s*.5+key h])}
 / c:   sigle color (0b,1b or 0<=c<=1) or a vector of colors. The vector is resized to match x and y.
 plot:{[bm;x;y;c]
     x:floor (),x;y:floor (),y;
-    c:("f"$(),c)floor key[count x]*count[c]%count x;
+    c:("f"$(),c)floor count[c]*key[n]%n:count x;
     i:where 0<=x&y;x@:i;y@:i;c@:i;
     i:where (x<bm`w)&y<bm`h;x@:i;y@:i;c@:i;
     c>:dthr mod[x;4]+4*mod[y;4];
@@ -161,20 +161,19 @@ line0:line[;;;0b]
 
 //4x4 Bayer matrix for dithering
 dth:(0 12 3 15;8 4 11 7;2 14 1 13;10 6 9 5)%16
-dthr:raze dth;
+dthr:raze dth
 
 //U+2800..., i.e. Braille chars
 brChar:(256 sv 0x2800)+ 0 1 8 2 16 4 32 64 128 wsum flip 2 vs/:256+key 256
 
 //TXT representation of the bitmap with " " and "o".
-txt:{[bm]" o"reverse (cut). bm`w`d};
+txt:{[bm]" o"reverse (cut). bm`w`d}
 
 //Braille (UTF-8) representation of the bitmap.
 braille:{[bm]
-    if[not `utf8 in key`;'"Requries utf8.q!"];
     d:reverse (cut). bm`w`d;
     if[hm:mod[bm`h]4;d,:(4-hm)#enlist(bm`w)#0b];
     if[mod[bm`w]2;d:d,\:0b];
-    blocks:flip ({2 sv raze x} each 4 cut) each flip(2 cut)each d;
+    blocks:flip ((2 sv raze@) each 4 cut) each flip(2 cut)each d;
     .utf8.enJ each brChar blocks
  }
