@@ -15,7 +15,7 @@ from2DIRGB24:{[img]
 //Creates a w x h RGB24 BMP from an 3x(w*h) sized (r;g;b) array.
 genFromRGB:{[w;h;rgb]
 	ws:4 xbar 3+w*3;
-	header:0x424d,b4[54+s:ws*h],0x000000003600000028000000,b4[w],b4[h],0x0100180000000000,b4[ws*h],0x130b0000130b00000000000000000000;
+	header:0x424d,b4[54+ws*h],0x000000003600000028000000,b4[w],b4[h],0x0100180000000000,b4[ws*h],0x130b0000130b00000000000000000000;
 	header,raze ws#/:(raze')w cut flip"x"$floor reverse rgb
  }
 
